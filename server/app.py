@@ -10,7 +10,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlparse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SITE = os.path.join(HERE, '..', 'site')
+SITE = os.path.join(HERE, '..', 'docs')
 
 # простейший .env (KEY=VALUE), без внешних библиотек
 try:
