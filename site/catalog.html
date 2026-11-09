@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Каталог — Дарли</title>
+<meta name="description" content="Сервис необычных подарков от небольших творческих брендов.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <a class="logo" href="index.html" aria-label="Дарли">
+      <svg viewBox="0 0 48 48" class="logo-mark" aria-hidden="true"><use href="#gift"/></svg>
+      <span class="logo-txt"><b>Дарли</b><small>дар быть особенным</small></span>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="ai.html">Подбор с ИИ</a>
+      <a href="catalog.html" class="on">Каталог</a>
+      <a href="#">Сообщество</a>
+      <a href="#">Обратная связь</a>
+      <a href="brands.html">Брендам</a>
+      <a href="#">О нас</a>
+    </nav>
+    <div class="hdr-r">
+      <a class="icon-btn" href="account.html#fav" aria-label="Избранное" data-auth="fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.1A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/></svg><span class="badge" hidden>0</span></a>
+      <a class="icon-btn" href="account.html" aria-label="Личный кабинет" data-auth="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.6 4-5.3 7.5-5.3s6.3 1.7 7.5 5.3"/></svg></a>
+      <a class="btn btn-coral" href="ai.html">Подобрать подарок</a>
+    </div>
+  </div>
+</header>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="gift" viewBox="0 0 48 48">
+    <rect x="8" y="22" width="32" height="20" rx="4" fill="#F4A8A0"/>
+    <rect x="6" y="16" width="36" height="9" rx="4" fill="#F7B9B2"/>
+    <rect x="21" y="16" width="6" height="26" rx="2" fill="#E98A82"/>
+    <path d="M24 16C16 15 11 9 14 6c3-3 8 0 10 10 2-10 7-13 10-10 3 3-2 9-10 10z" fill="#E98A82"/>
+  </symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+
+<main class="catalog">
+  <div class="wrap">
+    <div class="cat-head">
+      <div>
+        <div class="eyebrow">Каталог</div>
+        <h2>Все подарки <mark>Дарли</mark></h2>
+        <p class="cat-sub">Необычные вещи от небольших творческих брендов. Не знаете, что выбрать? <a href="ai.html">Подберите с ИИ →</a></p>
+      </div>
+      <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Поиск: журнал, браслет, брелок…" aria-label="Поиск по каталогу"></label>
+    </div>
+
+    <div class="filters" id="filters">
+      <div class="frow"><span>Категория</span><div class="chips2" data-f="cat"></div></div>
+      <div class="frow"><span>Повод</span><div class="chips2" data-f="occ"></div></div>
+      <div class="frow"><span>Кому</span><div class="chips2" data-f="who"></div></div>
+      <div class="frow"><span>Бюджет</span><div class="chips2" data-f="price"></div></div>
+    </div>
+
+    <div class="cat-bar">
+      <span id="count"></span>
+      <div class="cat-bar-r">
+        <button type="button" class="reset" id="reset" hidden>Сбросить фильтры</button>
+        <label class="sort">Сортировка
+          <select id="sort"><option value="pop">Сначала хиты</option><option value="asc">Сначала дешевле</option><option value="desc">Сначала дороже</option></select>
+        </label>
+      </div>
+    </div>
+
+    <div class="cat-grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>
+      <b>Ничего не нашлось</b>
+      <p>Попробуйте убрать часть фильтров или <a href="ai.html">подобрать подарок с ИИ</a>.</p>
+    </div>
+  </div>
+</main>
+
+<div class="pdp" id="pdp" role="dialog" aria-modal="true" hidden>
+  <div class="pdp-in">
+    <div class="pdp-left"><div class="pdp-art"><div class="spin"></div></div><div class="pdp-floor"></div><p class="pdp-hint" id="pdpCat"></p></div>
+    <div class="pdp-right">
+      <button class="back" id="pdpBack" type="button">← К каталогу</button>
+      <div class="pdp-brand" id="pdpBrand"></div>
+      <h3 id="pdpName"></h3>
+      <div class="pdp-price" id="pdpPrice"></div>
+      <p class="pdp-desc" id="pdpDesc"></p>
+      <ul class="pdp-list" id="pdpList"></ul>
+      <div class="pdp-btns"><a class="btn btn-navy btn-lg" href="#">Купить у продавца <svg class="ic"><use href="#arrow"/></svg></a><button class="btn btn-soft btn-lg" type="button" id="pdpFav">В избранное ♡</button></div>
+    </div>
+  </div>
+</div>
+<script src="products.js"></script>
+<script src="auth.js"></script>
+<script src="catalog.js"></script>
+</body>
+</html>

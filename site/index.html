@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Дарли — подарок, который попадает в точку</title>
+<meta name="description" content="Сервис необычных подарков от небольших творческих брендов.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <a class="logo" href="#" aria-label="Дарли">
+      <svg viewBox="0 0 48 48" class="logo-mark" aria-hidden="true"><use href="#gift"/></svg>
+      <span class="logo-txt"><b>Дарли</b><small>дар быть особенным</small></span>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="ai.html">Подбор с ИИ</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="#">Сообщество</a>
+      <a href="#">Обратная связь</a>
+      <a href="brands.html">Брендам</a>
+      <a href="#">О нас</a>
+    </nav>
+    <div class="hdr-r">
+      <a class="icon-btn" href="account.html#fav" aria-label="Избранное" data-auth="fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.1A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/></svg><span class="badge" hidden>0</span></a>
+      <a class="icon-btn" href="account.html" aria-label="Личный кабинет" data-auth="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.6 4-5.3 7.5-5.3s6.3 1.7 7.5 5.3"/></svg></a>
+      <a class="btn btn-coral" href="ai.html">Подобрать подарок</a>
+    </div>
+  </div>
+</header>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="gift" viewBox="0 0 48 48">
+    <rect x="8" y="22" width="32" height="20" rx="4" fill="#F4A8A0"/>
+    <rect x="6" y="16" width="36" height="9" rx="4" fill="#F7B9B2"/>
+    <rect x="21" y="16" width="6" height="26" rx="2" fill="#E98A82"/>
+    <path d="M24 16C16 15 11 9 14 6c3-3 8 0 10 10 2-10 7-13 10-10 3 3-2 9-10 10z" fill="#E98A82"/>
+  </symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+
+<main>
+  <!-- ПЕРВЫЙ ЭКРАН -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-card">
+        <video class="hero-bg" id="heroBg" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261014_144105_b4b14bc7-788f-4997-86aa-ce920dc8fe96.mp4" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+        <span class="hero-tint" aria-hidden="true"></span>
+        <div class="hero-l">
+          <div class="tag">дар быть особенным</div>
+          <h1>Подарок, который <span class="pt">попадает в&nbsp;<em>точку</em></span></h1>
+          <p class="lead">Сервис необычных подарков от небольших творческих брендов. Расскажите о человеке — ИИ подберёт идеи, или выберите сами.</p>
+          <div class="paths">
+            <a class="path path-ai" href="ai.html">
+              <span class="p-t">Подобрать с ИИ <svg class="ic"><use href="#arrow"/></svg></span>
+              <span class="p-d">Опишите человека — получите 5–7 идей за 2 минуты</span>
+              <span class="p-ex">«Брату 19, любит кофе и скейт…»</span>
+            </a>
+            <div class="path path-self">
+              <a class="p-stretch" href="catalog.html" aria-label="Выбрать самому: перейти в каталог"></a>
+              <span class="p-t">Выбрать самому</span>
+              <span class="p-d">Сразу перейти к каталогу</span>
+              <span class="chips">
+                <a href="#quick">Повод</a><a href="catalog.html?max=2000">До 2 000 ₽</a><a href="catalog.html?who=Любимым">Любимым</a><a href="#catalog">Хиты</a>
+              </span>
+              <a class="p-go" href="catalog.html">Смотреть каталог <svg class="ic"><use href="#arrow"/></svg></a>
+            </div>
+          </div>
+        </div>
+        <div class="hero-r">
+          <a class="fc f1" href="catalog.html?p=pinterest"><img src="img/pinterest.jpg" alt="Журнал «Pinterest Girl»"><span class="cap">Журнал · от 7 200 ₽</span></a>
+          <a class="fc f2" href="catalog.html?p=bracelet"><img src="img/bracelet.jpg" alt="Браслет Nomination"><span class="cap">Браслет · от 1 200 ₽</span></a>
+          <a class="fc f3" href="catalog.html?p=mermaid"><img src="img/mermaid.jpg" alt="Брелок с русалочьим хвостом"><span class="cap">Брелок · 350 ₽</span></a>
+          <a class="fc f4" href="catalog.html?p=mama"><img src="img/mama.jpg" alt="Журнал «Для мамы»"><span class="cap">Журнал · от 4 800 ₽</span></a>
+          <span class="sp s1" aria-hidden="true">✦</span><span class="sp s2" aria-hidden="true">✦</span><span class="sp s3" aria-hidden="true">✦</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ХИТЫ НЕДЕЛИ -->
+  <section class="sec hits" id="catalog">
+    <div class="wrap">
+      <div class="eyebrow">Сейчас выбирают</div>
+      <h2>Хиты <mark>недели</mark></h2>
+      <div class="shelf" id="shelf"></div>
+      <div class="hits-cta"><a class="btn btn-navy btn-lg" href="catalog.html">Смотреть весь каталог <svg class="ic"><use href="#arrow"/></svg></a></div>
+    </div>
+  </section>
+
+  <!-- БЫСТРЫЙ СТАРТ -->
+  <section class="sec quick" id="quick">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <div class="eyebrow">Быстрый старт</div>
+          <h2>Какой подарок <mark>ищем?</mark></h2>
+        </div>
+        <a class="lnk" href="catalog.html">Весь каталог <svg class="ic"><use href="#arrow"/></svg></a>
+      </div>
+      <div class="occ" id="occ"></div>
+    </div>
+  </section>
+
+  <!-- КАК ЭТО РАБОТАЕТ -->
+  <section class="sec how" id="how">
+    <div class="wrap">
+      <div class="eyebrow">Как это работает</div>
+      <h2>Три шага до подарка, который <mark>запомнят</mark></h2>
+
+      <div class="how-card">
+        <div class="how-top">
+          <div class="how-status"><span id="howStatus">Расскажите о человеке</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <button class="again" id="again" type="button">Ещё раз
+            <svg viewBox="0 0 24 24" class="ic"><path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v5h-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+
+        <div class="track" id="track">
+          <span class="node"></span><span class="line"></span>
+          <span class="node"></span><span class="line"></span>
+          <span class="node"></span><span class="line"></span>
+          <span class="node"></span>
+        </div>
+
+        <div class="steps" id="steps">
+          <article class="step">
+            <span class="step-ic"><svg viewBox="0 0 24 24"><path d="M5 5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1h-7l-4 3.5V16H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z"/><path d="M8 9h8M8 12h5"/></svg></span>
+            <small>ШАГ 1</small>
+            <b>Расскажите о человеке</b>
+          </article>
+          <article class="step">
+            <span class="step-ic"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2c.6 5.6 4.4 9.4 10 10-5.6.6-9.4 4.4-10 10-.6-5.6-4.4-9.4-10-10 5.6-.6 9.4-4.4 10-10z"/></svg></span>
+            <small>ШАГ 2</small>
+            <b>Получите 5–7 идей</b>
+          </article>
+          <article class="step">
+            <span class="step-ic"><svg viewBox="0 0 24 24"><path d="M6 8h12l1 12H5L6 8z"/><path d="M9 8V7a3 3 0 0 1 6 0v1"/></svg></span>
+            <small>ШАГ 3</small>
+            <b>Купите у продавца</b>
+          </article>
+          <article class="step finish">
+            <small>ФИНИШ</small>
+            <b>Подарок найден!</b>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="pdp" id="pdp" role="dialog" aria-modal="true" hidden>
+  <div class="pdp-in">
+    <div class="pdp-left"><div class="pdp-art"><div class="spin"></div></div><div class="pdp-floor"></div><p class="pdp-hint">Хит недели</p></div>
+    <div class="pdp-right">
+      <button class="back" id="pdpBack" type="button">← К хитам</button>
+      <div class="pdp-brand" id="pdpBrand"></div>
+      <h3 id="pdpName"></h3>
+      <div class="pdp-price" id="pdpPrice"></div>
+      <p class="pdp-desc" id="pdpDesc"></p>
+      <ul class="pdp-list" id="pdpList"></ul>
+      <div class="pdp-btns"><a class="btn btn-navy btn-lg" href="#">Купить у продавца <svg class="ic"><use href="#arrow"/></svg></a><button class="btn btn-soft btn-lg" type="button" id="pdpFav">В избранное ♡</button></div>
+    </div>
+  </div>
+</div>
+<script src="products.js"></script>
+<script src="auth.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
