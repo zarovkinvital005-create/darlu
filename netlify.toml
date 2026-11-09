@@ -1,0 +1,3 @@
+# Netlify: сайт лежит в папке site/, сборки нет (чистый HTML/CSS/JS)
+[build]
+  publish = "site"

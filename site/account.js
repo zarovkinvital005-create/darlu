@@ -59,7 +59,9 @@ function cabinet() {
 
 function render() {
   if (!Auth.serverUp) {
-    root.innerHTML = `<div class="acc-card"><h1>Личный кабинет</h1><p class="acc-sub">Кабинет работает только при запущенном сервере. Запустите <code>python3 server/app.py</code> и откройте <code>http://localhost:8000</code>.</p>
+    const dev = ['localhost', '127.0.0.1', ''].includes(location.hostname);
+    root.innerHTML = `<div class="acc-card"><h1>Личный кабинет</h1>
+      <p class="acc-sub">${dev ? 'Кабинет работает только при запущенном сервере. Запустите <code>python3 server/app.py</code> и откройте <code>http://localhost:8000</code>.' : 'Личный кабинет скоро появится. Пока избранное сохраняется в этом браузере.'}</p>
       ${Auth.favs.size ? `<p class="acc-hint">♥ Избранное в этом браузере: ${Auth.favs.size}</p>` : ''}</div>`;
     return;
   }
