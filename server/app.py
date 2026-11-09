@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Дарли: статика сайта + /api/profile (ИИ-разбор человека для подбора подарка).
+"""Дарлу: статика сайта + /api/profile (ИИ-разбор человека для подбора подарка).
 
 Запуск:  ANTHROPIC_API_KEY=... python3 server/app.py   (или положить ключ в server/.env)
 Ключ хранится ТОЛЬКО на сервере. Ничего из присланного не сохраняется.
@@ -141,7 +141,7 @@ def one_line(v, n):
 
 def send_brand_mail(d):
     msg = EmailMessage()
-    msg['Subject'] = 'Заявка бренда на Дарли: ' + d['name']
+    msg['Subject'] = 'Заявка бренда на Дарлу: ' + d['name']
     msg['From'] = SMTP_USER
     msg['To'] = MAIL_TO
     msg.set_content(
@@ -358,5 +358,5 @@ class H(SimpleHTTPRequestHandler):
 
 if __name__ == '__main__':
     init_db()
-    print(f"Дарли: http://localhost:{PORT}  | ключ: {'есть' if KEY else ('MOCK' if MOCK else 'НЕТ')} | модель: {MODEL}")
+    print(f"Дарлу: http://localhost:{PORT}  | ключ: {'есть' if KEY else ('MOCK' if MOCK else 'НЕТ')} | модель: {MODEL}")
     ThreadingHTTPServer(('0.0.0.0', PORT), H).serve_forever()

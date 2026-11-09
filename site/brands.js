@@ -17,7 +17,7 @@ form.addEventListener('submit', async (e) => {
   } catch (err) {
     // сервера нет или почта не настроена: открываем письмо в почтовой программе, уже адресованное команде
     const body = `Название бренда: ${d.name}\nСайт или соцсети: ${d.link}\nЧто делаем: ${d.kind}\nКонтакт: ${d.contact}`;
-    location.href = `mailto:${TO}?subject=${encodeURIComponent('Заявка бренда на Дарли: ' + d.name)}&body=${encodeURIComponent(body)}`;
+    location.href = `mailto:${TO}?subject=${encodeURIComponent('Заявка бренда на Дарлу: ' + d.name)}&body=${encodeURIComponent(body)}`;
     say('Открыли письмо в вашей почте: осталось нажать «Отправить». Если не открылось, напишите на ' + TO, '');
   }
   btn.disabled = false; btn.textContent = 'Отправить заявку';
