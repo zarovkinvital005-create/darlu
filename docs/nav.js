@@ -13,6 +13,7 @@
   function set(o){p.hidden=!o;b.setAttribute('aria-expanded',o);hdr.classList.toggle('open',o)}
   b.addEventListener('click',function(){set(p.hidden)});
   p.addEventListener('click',function(e){if(e.target.closest('a'))set(false)});
+  hdr.addEventListener('click',function(e){if(e.target===hdr)set(false)});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});
   window.addEventListener('resize',function(){if(innerWidth>1100)set(false)});
 })();
