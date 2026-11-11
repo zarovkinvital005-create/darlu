@@ -112,8 +112,25 @@ if (hv) {
 
 /* открывающийся подарок: ныряем в коробку, всё растворяется в свете, из света вылетают карточки */
 (function(){
-  const box=document.getElementById('heroR'),v=document.getElementById('giftV');
-  if(!box||!v)return;
+  const box=document.getElementById('heroR'),v=document.getElementById('giftV'),cv=document.getElementById('giftC');
+  if(!box||!v||!cv)return;
+  /* ролик хранит картинку слева и маску прозрачности справа; WebGL собирает из них кадр без фона */
+  let gl=null,draw=()=>{};
+  try{
+    gl=cv.getContext('webgl',{premultipliedAlpha:true,alpha:true});
+    const sh=(t,s)=>{const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);return o};
+    const pr=gl.createProgram();
+    gl.attachShader(pr,sh(gl.VERTEX_SHADER,'attribute vec2 p;varying vec2 u;void main(){u=p*.5+.5;gl_Position=vec4(p,0.,1.);}'));
+    gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,'precision mediump float;varying vec2 u;uniform sampler2D t;void main(){vec3 c=texture2D(t,vec2(u.x*.5,u.y)).rgb;float a=texture2D(t,vec2(u.x*.5+.5,u.y)).r;gl_FragColor=vec4(c*a,a);}'));
+    gl.linkProgram(pr);gl.useProgram(pr);
+    const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+    const l=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0);
+    const tx=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tx);
+    [gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(k=>gl.texParameteri(gl.TEXTURE_2D,k,gl.CLAMP_TO_EDGE));
+    [gl.TEXTURE_MIN_FILTER,gl.TEXTURE_MAG_FILTER].forEach(k=>gl.texParameteri(gl.TEXTURE_2D,k,gl.LINEAR));
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);
+    draw=()=>{if(v.readyState<2)return;gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,v);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLE_STRIP,0,4)};
+  }catch(e){gl=null}
   const show=()=>{box.classList.add('dive');box.classList.add('cards-in')};
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){
     v.addEventListener('loadedmetadata',()=>{v.currentTime=v.duration;show()});
@@ -121,10 +138,13 @@ if (hv) {
   }
   let dived=false,shown=false;
   const finish=()=>{if(!shown){shown=true;show()}};
+  if(!gl){finish();return}
+  v.addEventListener('loadeddata',draw);
   v.addEventListener('ended',finish);
   v.addEventListener('error',finish);
   (function watch(){
     if(shown)return;
+    draw();
     if(v.duration&&!v.paused){
       const left=v.duration-v.currentTime;
       if(!dived&&left<0.75){dived=true;box.classList.add('dive')}
