@@ -120,6 +120,7 @@ if (hv) {
     setTimeout(show,1500);return;
   }
   v.addEventListener('ended',show);
+  v.addEventListener('timeupdate',()=>{if(v.duration&&v.currentTime>v.duration-1.3)show()});
   v.addEventListener('error',show);
   let tries=0;
   (function go(){
