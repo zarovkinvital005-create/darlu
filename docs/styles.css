@@ -498,3 +498,6 @@ body.lock{overflow:hidden}
 a.prod2{text-decoration:none;color:inherit}
 
 .ct-links{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 24px}
+
+.b-form-link p{margin:0;color:var(--muted);line-height:1.55}
+.b-form-link .b-note{font-size:14px}
