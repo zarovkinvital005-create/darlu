@@ -109,3 +109,24 @@ if (hv) {
   go();
   ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach((e) => addEventListener(e, () => { if (hv.paused) go(); }, { once: true, passive: true }));
 }
+
+/* открывающийся подарок: видео один раз, потом вылетают карточки */
+(function(){
+  const box=document.getElementById('heroR'),v=document.getElementById('giftV');
+  if(!box||!v)return;
+  const show=()=>box.classList.add('cards-in');
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+    v.addEventListener('loadedmetadata',()=>{v.currentTime=v.duration;show()});
+    setTimeout(show,1500);return;
+  }
+  v.addEventListener('ended',show);
+  v.addEventListener('timeupdate',()=>{if(v.duration&&v.currentTime>v.duration-0.12)show()});
+  v.addEventListener('error',show);
+  let tries=0;
+  (function go(){
+    if(document.getElementById('splash')&&tries++<30)return setTimeout(go,100);
+    const p=v.play();
+    if(p&&p.catch)p.catch(show);
+    setTimeout(show,6000); // страховка
+  })();
+})();
