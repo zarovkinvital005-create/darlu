@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Избранное — Дарлу</title>
+<meta name="description" content="Сервис необычных подарков от небольших творческих брендов.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="splash.js"></script>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <a class="logo" href="index.html" aria-label="Дарлу">
+      <svg viewBox="0 0 48 48" class="logo-mark" aria-hidden="true"><use href="#gift"/></svg>
+      <span class="logo-txt"><b>Дарлу</b><small>дар быть особенным</small></span>
+    </a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="ai.html">Подбор с ИИ</a>
+      <a href="catalog.html">Каталог</a>
+      <a href="community.html">Сообщество</a>
+      <a href="#">Обратная связь</a>
+      <a href="brands.html">Брендам</a>
+      <a href="about.html">О нас</a>
+    </nav>
+    <div class="hdr-r">
+      <a class="icon-btn" href="favorites.html" aria-label="Избранное" data-auth="fav"><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.1A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/></svg><span class="badge" hidden>0</span></a>
+      <a class="icon-btn" href="account.html" aria-label="Личный кабинет" data-auth="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.6 4-5.3 7.5-5.3s6.3 1.7 7.5 5.3"/></svg></a>
+      <a class="btn btn-coral" href="ai.html">Подобрать подарок</a>
+    </div>
+  </div>
+</header>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="gift" viewBox="0 0 48 48">
+    <rect x="8" y="22" width="32" height="20" rx="4" fill="#F4A8A0"/>
+    <rect x="6" y="16" width="36" height="9" rx="4" fill="#F7B9B2"/>
+    <rect x="21" y="16" width="6" height="26" rx="2" fill="#E98A82"/>
+    <path d="M24 16C16 15 11 9 14 6c3-3 8 0 10 10 2-10 7-13 10-10 3 3-2 9-10 10z" fill="#E98A82"/>
+  </symbol>
+  <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+
+<main class="catalog fav-page">
+  <div class="wrap">
+    <div class="eyebrow">Ваши находки</div>
+    <h1 class="ab-h1">Избранное <span class="fav-n" id="favN"></span></h1>
+    <div class="cat-grid" id="favGrid"></div>
+    <div class="fav-empty" id="favEmpty" hidden>
+      <svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.1A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/></svg>
+      <b>Пока здесь пусто</b>
+      <p>Нажимайте на сердечко у подарка, и он появится здесь.</p>
+      <a class="btn btn-coral" href="catalog.html">Перейти в каталог</a>
+    </div>
+  </div>
+</main>
+
+<script src="products.js"></script>
+<script src="auth.js"></script>
+<script src="nav.js"></script>
+<script src="favorites.js"></script>
+</body>
+</html>

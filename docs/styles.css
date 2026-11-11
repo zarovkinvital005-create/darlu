@@ -486,3 +486,13 @@ body.lock{overflow:hidden}
 
 .ab-mission{grid-template-columns:1fr}
 .ab-mission .ab-text{max-width:60em}
+
+/* избранное */
+.fav-page{padding:34px 0 90px}
+.fav-n{font-family:var(--body,inherit);font-size:.35em;color:var(--muted);letter-spacing:0;font-weight:700}
+.fav-empty{background:#fff;border-radius:32px;padding:56px 20px;text-align:center}
+.fav-empty[hidden]{display:none}
+.fav-empty svg{width:56px;height:56px;fill:none;stroke:var(--coral-d);stroke-width:1.8;stroke-linejoin:round;margin-bottom:10px}
+.fav-empty b{display:block;font-family:var(--head);font-weight:500;font-size:26px;margin-bottom:6px}
+.fav-empty p{color:var(--muted);margin:0 0 20px}
+a.prod2{text-decoration:none;color:inherit}
