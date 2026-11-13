@@ -91,6 +91,8 @@ function openProduct(id, btn) {
     flip(spin.firstChild, from, 600);
     spin.animate([{ transform: 'rotateY(0)' }, { transform: 'rotateY(360deg)' }], { duration: 1000, easing: 'ease-in-out' });
   }
+  const buy = document.querySelector('#pdp .pdp-btns .btn-navy');
+  if (buy) { const ext = !!p.url; buy.href = ext ? p.url : 'contacts.html'; buy.target = ext ? '_blank' : ''; buy.rel = ext ? 'noopener' : ''; buy.firstChild.textContent = ext ? 'Купить у продавца ' : 'Заказать у нас '; }
   history.replaceState(null, '', '?p=' + id);
   if (typeof Auth !== 'undefined') Auth.bind($('#pdpFav'), p.id);
   $('#pdpBack').focus({ preventScroll: true });
