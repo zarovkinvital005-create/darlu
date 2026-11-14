@@ -33,23 +33,49 @@ $('#sort').onchange = (e) => { F.sort = e.target.value; render(); };
 $('#reset').onclick = () => { Object.assign(F, { cat: '', occ: '', who: '', price: '', q: '' }); $('#q').value = ''; render(); };
 
 /* ---------- подбор по голосовому описанию ---------- */
-let VQ = null; // { text, q }
-function setVoice(text) {
-  VQ = text ? { text, q: Voice.parse(text) } : null;
-  if (!text) { Voice.set(''); if (location.hash === '#voice') history.replaceState(null, '', location.pathname + location.search); }
+let VQ = null; // { text, q, ai: { ids, summary, question } | null, busy }
+const AIKEY = 'darli_voice_ai';
+async function askAI(text) {
+  // настоящий ИИ понимает любой рассказ. Если сервер не подключён или упал, остаётся поиск по словам
+  if (!window.DARLU_API) return null;
+  try {
+    const hit = JSON.parse(sessionStorage.getItem(AIKEY) || 'null');
+    if (hit && hit.text === text) return hit.res;
+  } catch (e) {}
+  const ctl = new AbortController(), to = setTimeout(() => ctl.abort(), 15000);
+  try {
+    const r = await fetch(window.DARLU_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }), signal: ctl.signal });
+    if (!r.ok) return null;
+    const res = await r.json();
+    try { sessionStorage.setItem(AIKEY, JSON.stringify({ text, res })); } catch (e) {}
+    return res;
+  } catch (e) { return null; } finally { clearTimeout(to); }
+}
+async function setVoice(text) {
+  if (!text) { VQ = null; Voice.set(''); if (location.hash === '#voice') history.replaceState(null, '', location.pathname + location.search); render(); return; }
+  const mine = (VQ = { text, q: Voice.parse(text), ai: null, busy: !!window.DARLU_API });
   render();
-  if (text) $('#vqBar').scrollIntoView({ block: 'start', behavior: 'smooth' });
+  $('#vqBar').scrollIntoView({ block: 'start', behavior: 'smooth' });
+  if (window.DARLU_API) {
+    const res = await askAI(text);
+    if (VQ !== mine) return; // за это время запустили другой подбор
+    mine.busy = false; mine.ai = res && (res.ids || []).length ? res : (res && res.question ? res : null);
+    render();
+  }
 }
 window.voiceApply = setVoice;
 function voiceBar(found) {
   const bar = $('#vqBar');
   if (!VQ) { bar.hidden = true; bar.innerHTML = ''; return; }
-  const q = VQ.q, got = [...q.who, ...q.occ, ...q.hob, ...q.chr];
+  const q = VQ.q, ai = VQ.ai, got = [...q.who, ...q.occ, ...q.hob, ...q.chr];
   if (q.max) got.push('до ' + q.max.toLocaleString('ru-RU') + ' ₽');
   bar.hidden = false;
-  bar.innerHTML = `<div class="vq-t"><b>Подбор по вашему рассказу</b><span>«${esc(VQ.text)}»</span></div>
-    ${got.length ? `<div class="vq-tags">${got.map((x) => `<i>${esc(x)}</i>`).join('')}</div>` : ''}
-    ${found ? '' : '<p class="vq-none">Не нашла точных совпадений, показываю весь каталог. Попробуйте назвать, кому подарок, увлечения и бюджет.</p>'}
+  const note = VQ.busy ? '<p class="vq-ai"><span class="vq-dots"><i></i><i></i><i></i></span> ИИ читает ваш рассказ и выбирает подарки…</p>'
+    : ai && ai.ids && ai.ids.length ? `<p class="vq-ai"><b>ИИ понял так:</b> ${esc(ai.summary || '')}</p>`
+    : ai && ai.question ? `<p class="vq-ai"><b>Уточните, пожалуйста:</b> ${esc(ai.question)}</p>` : '';
+  const tags = !ai && got.length ? `<div class="vq-tags">${got.map((x) => `<i>${esc(x)}</i>`).join('')}</div>` : '';
+  const none = !VQ.busy && !(ai && ai.ids && ai.ids.length) && !found ? '<p class="vq-none">Не нашла точных совпадений, показываю весь каталог. Попробуйте назвать, кому подарок, увлечения и бюджет.</p>' : '';
+  bar.innerHTML = `<div class="vq-t"><b>Подбор по вашему рассказу</b><span>«${esc(VQ.text)}»</span></div>${note}${tags}${none}
     <div class="vq-btns"><button type="button" class="btn btn-soft" data-voice>Сказать заново</button><button type="button" class="reset" id="vqReset">Сбросить подбор</button></div>`;
   $('#vqReset').onclick = () => setVoice('');
 }
@@ -70,7 +96,15 @@ function render() {
   });
   let list = products.filter(match);
   let vFound = true;
-  if (VQ) {
+  if (VQ && VQ.ai && VQ.ai.ids && VQ.ai.ids.length) {
+    const order = new Map(VQ.ai.ids.map((id, i) => [id, i]));
+    const hit = list.filter((p) => order.has(p.id)).sort((a, b) => order.get(a.id) - order.get(b.id));
+    if (hit.length) list = hit;
+  } else if (VQ && VQ.busy) { // пока ИИ думает, показываем подборку по словам
+    const sc0 = new Map(list.map((p) => [p.id, Voice.score(p, VQ.q)]));
+    const h0 = list.filter((p) => sc0.get(p.id) > 0).sort((a, b) => sc0.get(b.id) - sc0.get(a.id));
+    if (h0.length) list = h0;
+  } else if (VQ) {
     const sc = new Map(list.map((p) => [p.id, Voice.score(p, VQ.q)]));
     const hit = list.filter((p) => sc.get(p.id) > 0).sort((a, b) => sc.get(b.id) - sc.get(a.id));
     vFound = hit.length > 0;

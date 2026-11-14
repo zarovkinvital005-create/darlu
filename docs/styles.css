@@ -567,3 +567,7 @@ a.prod2{text-decoration:none;color:inherit}
 .tg-cap small{font-size:.72em;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--coral-d);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tg-cap b{font-family:var(--head);font-weight:700;font-size:.95em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tg-cap span{font-weight:800;font-size:.95em}
+.vq-ai{margin:0;line-height:1.5}
+.vq-dots{display:inline-flex;gap:4px;vertical-align:middle;margin-right:4px}
+.vq-dots i{width:8px;height:8px;border-radius:50%;background:var(--coral-d);animation:dot 1s ease-in-out infinite}
+.vq-dots i:nth-child(2){animation-delay:.15s}.vq-dots i:nth-child(3){animation-delay:.3s}
