@@ -510,5 +510,12 @@ a.prod2{text-decoration:none;color:inherit}
 .b-form-link p{margin:0;color:var(--muted);line-height:1.55}
 .b-form-link .b-note{font-size:14px}
 
-.mic.rec{background:var(--coral);animation:micpulse 1.2s ease-in-out infinite}
-@keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(244,168,160,.6)}50%{box-shadow:0 0 0 12px rgba(244,168,160,0)}}
+.mic.rec{background:#E5484D;animation:micpulse 1.2s ease-in-out infinite}
+.mic.rec svg{stroke:#fff}
+@keyframes micpulse{0%,100%{box-shadow:0 0 0 0 rgba(229,72,77,.55)}50%{box-shadow:0 0 0 12px rgba(229,72,77,0)}}
+.rec-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#FDECEC;color:#B4232A;border:2px solid #F3B6B8;border-radius:18px;padding:12px 18px;margin:0 0 12px;font-weight:800}
+.rec-bar i{width:14px;height:14px;border-radius:50%;background:#E5484D;animation:recdot 1s ease-in-out infinite}
+.rec-bar span{font-variant-numeric:tabular-nums}
+.rec-bar small{flex-basis:100%;font-weight:600;color:#7a3b3e}
+@keyframes recdot{50%{opacity:.25}}
+.recording{border-color:#E5484D!important;box-shadow:0 0 0 4px rgba(229,72,77,.15)}

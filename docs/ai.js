@@ -113,29 +113,47 @@ function answer(text, val) {
 }
 
 /* ---- голос (если браузер умеет) ---- */
-let rec = null;
+let rec = null, want = false, recTimer = null;
 function voice(input) {
   const btn = $('#micB');
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) { input.placeholder = 'Голосовой ввод не работает в этом браузере. Откройте сайт в Chrome, Edge или Safari'; return; }
-  if (rec) { rec.stop(); return; } // повторное нажатие останавливает запись
+  if (want) { want = false; if (rec) rec.stop(); return; } // повторное нажатие останавливает запись
+  want = true;
   const base = input.value ? input.value.trim() + ' ' : '';
-  let finalText = '';
-  rec = new SR(); rec.lang = 'ru-RU'; rec.interimResults = true; rec.continuous = true;
+  let finalText = '', t0 = Date.now();
   const hint = input.placeholder;
-  const done = () => { rec = null; if (btn) { btn.classList.remove('rec'); btn.setAttribute('aria-label', 'Голосом'); } input.placeholder = hint; input.focus(); };
-  rec.onstart = () => { if (btn) { btn.classList.add('rec'); btn.setAttribute('aria-label', 'Остановить запись'); } input.placeholder = 'Слушаю… Говорите, нажмите на микрофон, когда закончите'; };
-  rec.onresult = (e) => {
-    let interim = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) { const t = e.results[i][0].transcript; if (e.results[i].isFinal) finalText += t + ' '; else interim += t; }
-    input.value = (base + finalText + interim).trim();
+  // заметная плашка «идёт запись»
+  const form = input.closest('form');
+  const bar = document.createElement('div');
+  bar.className = 'rec-bar'; bar.setAttribute('role', 'status');
+  bar.innerHTML = '<i></i><b>Идёт запись</b><span id="recT">0:00</span><small>Говорите. Нажмите на микрофон, когда закончите</small>';
+  form.insertAdjacentElement('beforebegin', bar);
+  const tick = () => { const s = Math.floor((Date.now() - t0) / 1000); const el = $('#recT'); if (el) el.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+  recTimer = setInterval(tick, 500);
+  if (btn) { btn.classList.add('rec'); btn.setAttribute('aria-label', 'Остановить запись'); btn.title = 'Остановить запись'; }
+  input.classList.add('recording'); input.placeholder = 'Слушаю…';
+  const finish = (msg) => {
+    want = false; rec = null; clearInterval(recTimer); bar.remove();
+    if (btn) { btn.classList.remove('rec'); btn.setAttribute('aria-label', 'Голосом'); btn.title = ''; }
+    input.classList.remove('recording'); input.placeholder = msg || hint; input.focus();
   };
-  rec.onerror = (e) => {
-    const m = { 'not-allowed': 'Разрешите доступ к микрофону в браузере и нажмите ещё раз', 'service-not-allowed': 'Разрешите доступ к микрофону в браузере и нажмите ещё раз', 'no-speech': 'Ничего не слышно. Нажмите на микрофон и говорите', 'audio-capture': 'Микрофон не найден', 'network': 'Нет связи для распознавания речи' }[e.error];
-    if (m) input.placeholder = m;
+  const run = () => {
+    rec = new SR(); rec.lang = 'ru-RU'; rec.interimResults = true; rec.continuous = true;
+    rec.onresult = (e) => {
+      let interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) { const t = e.results[i][0].transcript; if (e.results[i].isFinal) finalText += t + ' '; else interim += t; }
+      input.value = (base + finalText + interim).trim();
+    };
+    rec.onerror = (e) => {
+      const m = { 'not-allowed': 'Разрешите доступ к микрофону в браузере и нажмите ещё раз', 'service-not-allowed': 'Разрешите доступ к микрофону в браузере и нажмите ещё раз', 'audio-capture': 'Микрофон не найден', 'network': 'Нет связи для распознавания речи' }[e.error];
+      if (m) finish(m); // остальные ошибки (например, тишина) не прерывают запись
+    };
+    // браузер сам завершает запись после паузы: если вы не нажимали «стоп», тут же запускаем заново
+    rec.onend = () => { if (want) setTimeout(() => { if (want) { try { run(); } catch (x) { finish(); } } }, 150); else finish(); };
+    try { rec.start(); } catch (x) { finish(); }
   };
-  rec.onend = done;
-  try { rec.start(); } catch (x) { done(); }
+  run();
 }
 
 /* ---- режим «сама пойму» ---- */
