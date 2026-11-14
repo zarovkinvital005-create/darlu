@@ -536,13 +536,20 @@ a.prod2{text-decoration:none;color:inherit}
 .vq-btns .btn{padding:11px 20px;font-size:15px}
 @media(max-width:760px){.voice-btn span{font-size:14px}}
 
-/* лента карточек на «цилиндре»: на всю ширину блока, под текстом, фон прозрачный */
+/* лента карточек товара на «цилиндре»: центр ровно, края загнуты и растворяются, фон прозрачный */
 .hero-r.tg{grid-column:1/-1;--hp:clamp(24px,4vw,56px);margin:0 calc(-1 * var(--hp)) calc(-1 * var(--hp));min-height:0;height:clamp(300px,31vw,430px)}
+@media(min-width:1101px){.hero-r.tg{grid-column:auto;align-self:center;margin:0 calc(-1 * var(--hp)) 0 0;height:clamp(440px,37vw,580px)}}
+@media(max-width:760px){.hero-r.tg{height:340px}}
 .tg-band{position:absolute;inset:0;opacity:0;transition:opacity .6s ease}
 .tg.ready .tg-band{opacity:1}
 .tg-tile{position:absolute;display:block;transform-style:preserve-3d;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.tg-s{position:absolute;top:0;overflow:hidden;background-repeat:no-repeat;background-color:rgba(255,255,255,.08);transition:filter .25s ease}
-.tg-tile:hover .tg-s{filter:brightness(1.12) saturate(1.1)}
+.tg-s{position:absolute;top:0;overflow:hidden;transition:filter .25s ease}
+.tg-tile:hover .tg-s{filter:brightness(1.06)}
 .tg-tile:focus-visible{outline:none}
-.tg-tile:focus-visible .tg-s{filter:brightness(1.2)}
-@media(max-width:760px){.hero-r.tg{height:360px}}
+.tg-tile:focus-visible .tg-s{filter:brightness(1.12)}
+.tg-card{position:absolute;top:0;display:flex;flex-direction:column;background:#fff;color:var(--navy);border-radius:1em;padding:.55em;box-sizing:border-box;box-shadow:0 .6em 1.6em rgba(0,0,0,.28)}
+.tg-ph{flex:1;border-radius:.65em;background-size:cover;background-position:center}
+.tg-cap{padding:.55em .25em .15em;display:flex;flex-direction:column;gap:.1em;line-height:1.15;min-height:0}
+.tg-cap small{font-size:.72em;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--coral-d);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tg-cap b{font-family:var(--head);font-weight:700;font-size:.95em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tg-cap span{font-weight:800;font-size:.95em}

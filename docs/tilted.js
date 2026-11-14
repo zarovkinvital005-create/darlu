@@ -10,8 +10,11 @@
   if (!list.length) return;
 
   const SLICES = 16, CAMERA = 1.6, MAX_WIDTH = 55;
-  const small = innerWidth < 700; // на телефоне карточки меньше и загиб слабее, чтобы в кадр влезало несколько
-  const O = small ? { speed: 3, tileHeight: 66, aspect: 3 / 4, gap: 14, axis: 52, curve: 52, fade: 14 } : { speed: 3.4, tileHeight: 76, aspect: 3 / 4, gap: 14, axis: 52, curve: 76, fade: 16 };
+  const small = innerWidth < 700; // на телефоне загиб слабее, чтобы в кадр влезало несколько карточек
+  const wide = innerWidth > 1100;  // на компьютере лента стоит в правой колонке, ниже: во всю ширину
+  const O = small ? { speed: 3, tileHeight: 64, aspect: 0.68, gap: 7, axis: 52, curve: 50, fade: 14 }
+    : wide ? { speed: 3.4, tileHeight: 50, aspect: 0.68, gap: 7, axis: 50, curve: 60, fade: 14 }
+    : { speed: 3.4, tileHeight: 64, aspect: 0.68, gap: 7, axis: 52, curve: 70, fade: 16 };
   const bend = (Math.min(85, Math.max(5, O.curve)) * Math.PI) / 180;
   const arc = (b) => (CAMERA - 1 + Math.cos(b)) / (2 * CAMERA * Math.sin(b));
   const deg = (r) => (r * 180) / Math.PI;
@@ -61,16 +64,28 @@
       for (let k = 0; k < SLICES; k++) {
         const s = document.createElement('i');
         s.className = 'tg-s';
-        s.style.cssText = `left:${u((O.aspect - share) / 2)};width:${k === SLICES - 1 ? u(share) : `calc(${u(share)} + 1px)`};height:${u(1)};transform:${turn((O.aspect / 2 - (k + 0.5) * share) * L.unit)};background-size:${u(O.aspect)} ${u(1)};background-position:${u(-k * share)} 0` +
-          (k === 0 ? ';border-radius:14px 0 0 14px' : k === SLICES - 1 ? ';border-radius:0 14px 14px 0' : '');
+        s.style.cssText = `left:${u((O.aspect - share) / 2)};width:${k === SLICES - 1 ? u(share) : `calc(${u(share)} + 1px)`};height:${u(1)};transform:${turn((O.aspect / 2 - (k + 0.5) * share) * L.unit)}`;
         a.appendChild(s);
       }
+      const money = (v) => v.toLocaleString('ru-RU').replace(/\u00a0/g, ' ') + ' ₽';
       const set = (n) => {
         const p = list[n % list.length];
         a.href = 'catalog.html?p=' + encodeURIComponent(p.id);
-        a.setAttribute('aria-label', p.n + ', ' + p.p.toLocaleString('ru-RU') + ' ₽');
+        a.setAttribute('aria-label', p.n + ', ' + (p.from ? 'от ' : '') + money(p.p));
         a.title = p.n;
-        a.querySelectorAll('.tg-s').forEach((s) => { s.style.backgroundImage = `url(${p.img})`; });
+        a.querySelectorAll('.tg-s').forEach((s, k) => {
+          // в каждой полоске своя часть одной и той же карточки: белая рамка, фото, название и цена
+          const c = document.createElement('div');
+          c.className = 'tg-card';
+          c.style.cssText = `left:${u(-k * share)};width:${u(O.aspect)};height:${u(1)};font-size:${u(0.05)}`;
+          const ph = document.createElement('div'); ph.className = 'tg-ph'; ph.style.backgroundImage = `url(${p.img})`;
+          const cap = document.createElement('div'); cap.className = 'tg-cap';
+          const br = document.createElement('small'); br.textContent = p.b;
+          const nm = document.createElement('b'); nm.textContent = p.n;
+          const pr = document.createElement('span'); pr.textContent = (p.from ? 'от ' : '') + money(p.p);
+          cap.append(br, nm, pr); c.append(ph, cap);
+          s.replaceChildren(c);
+        });
       };
       set(first);
       // на каждом новом круге (за кадром) карточка берёт следующую картинку
