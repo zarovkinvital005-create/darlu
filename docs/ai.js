@@ -113,12 +113,29 @@ function answer(text, val) {
 }
 
 /* ---- голос (если браузер умеет) ---- */
+let rec = null;
 function voice(input) {
+  const btn = $('#micB');
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) { input.placeholder = 'Голосовой ввод не поддерживается этим браузером'; return; }
-  const r = new SR(); r.lang = 'ru-RU';
-  r.onresult = (e) => { input.value = e.results[0][0].transcript; };
-  r.start();
+  if (!SR) { input.placeholder = 'Голосовой ввод не работает в этом браузере. Откройте сайт в Chrome, Edge или Safari'; return; }
+  if (rec) { rec.stop(); return; } // повторное нажатие останавливает запись
+  const base = input.value ? input.value.trim() + ' ' : '';
+  let finalText = '';
+  rec = new SR(); rec.lang = 'ru-RU'; rec.interimResults = true; rec.continuous = true;
+  const hint = input.placeholder;
+  const done = () => { rec = null; if (btn) { btn.classList.remove('rec'); btn.setAttribute('aria-label', 'Голосом'); } input.placeholder = hint; input.focus(); };
+  rec.onstart = () => { if (btn) { btn.classList.add('rec'); btn.setAttribute('aria-label', 'Остановить запись'); } input.placeholder = 'Слушаю… Говорите, нажмите на микрофон, когда закончите'; };
+  rec.onresult = (e) => {
+    let interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) { const t = e.results[i][0].transcript; if (e.results[i].isFinal) finalText += t + ' '; else interim += t; }
+    input.value = (base + finalText + interim).trim();
+  };
+  rec.onerror = (e) => {
+    const m = { 'not-allowed': 'Разрешите доступ к микрофону в браузере и нажмите ещё раз', 'service-not-allowed': 'Разрешите доступ к микрофону в браузере и нажмите ещё раз', 'no-speech': 'Ничего не слышно. Нажмите на микрофон и говорите', 'audio-capture': 'Микрофон не найден', 'network': 'Нет связи для распознавания речи' }[e.error];
+    if (m) input.placeholder = m;
+  };
+  rec.onend = done;
+  try { rec.start(); } catch (x) { done(); }
 }
 
 /* ---- режим «сама пойму» ---- */
