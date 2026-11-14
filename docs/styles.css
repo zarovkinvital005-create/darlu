@@ -536,10 +536,24 @@ a.prod2{text-decoration:none;color:inherit}
 .vq-btns .btn{padding:11px 20px;font-size:15px}
 @media(max-width:760px){.voice-btn span{font-size:14px}}
 
-/* лента карточек товара на «цилиндре»: центр ровно, края загнуты и растворяются, фон прозрачный */
+/* лента карточек товара на «цилиндре»: стоит под текстом на всю ширину, края размыты, фон прозрачный */
 .hero-r.tg{grid-column:1/-1;--hp:clamp(24px,4vw,56px);margin:0 calc(-1 * var(--hp)) calc(-1 * var(--hp));min-height:0;height:clamp(300px,31vw,430px)}
-@media(min-width:1101px){.hero-r.tg{grid-column:auto;align-self:center;margin:0 calc(-1 * var(--hp)) 0 0;height:clamp(440px,37vw,580px)}}
+@media(min-width:1101px){
+  /* сверху: слева заголовок, описание и голос, справа кнопки выбора; ниже лента. Пустых мест нет */
+  .hero-card{grid-template-columns:1.2fr 1fr;grid-template-rows:auto auto auto 1fr auto;column-gap:48px;row-gap:0}
+  .hero-l{display:contents}
+  .hero-l>*{position:relative;z-index:1}
+  .hero h1{grid-column:1;grid-row:1;font-size:clamp(38px,4.7vw,68px);margin-bottom:10px}
+  .hero-l .tag-sub{grid-column:1;grid-row:2}
+  .hero .lead{grid-column:1;grid-row:3;margin-bottom:16px}
+  .hero-l .voice-hero{grid-column:1;grid-row:4;align-self:start;margin-top:0;max-width:520px}
+  .hero-l .paths{grid-column:2;grid-row:1/5;grid-template-columns:1fr;align-self:center}
+  .hero-r.tg{grid-row:5;margin-top:14px;height:clamp(340px,27vw,410px)}
+}
 @media(max-width:760px){.hero-r.tg{height:340px}}
+.tg::before,.tg::after{content:"";position:absolute;top:0;bottom:0;width:20%;z-index:2;pointer-events:none;-webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}
+.tg::before{left:0;-webkit-mask-image:linear-gradient(90deg,#000 10%,transparent);mask-image:linear-gradient(90deg,#000 10%,transparent)}
+.tg::after{right:0;-webkit-mask-image:linear-gradient(270deg,#000 10%,transparent);mask-image:linear-gradient(270deg,#000 10%,transparent)}
 .tg-band{position:absolute;inset:0;opacity:0;transition:opacity .6s ease}
 .tg.ready .tg-band{opacity:1}
 .tg-tile{position:absolute;display:block;transform-style:preserve-3d;cursor:pointer;-webkit-tap-highlight-color:transparent}
