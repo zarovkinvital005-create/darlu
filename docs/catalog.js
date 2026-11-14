@@ -32,6 +32,28 @@ $('#q').oninput = (e) => { F.q = e.target.value.trim().toLowerCase(); render(); 
 $('#sort').onchange = (e) => { F.sort = e.target.value; render(); };
 $('#reset').onclick = () => { Object.assign(F, { cat: '', occ: '', who: '', price: '', q: '' }); $('#q').value = ''; render(); };
 
+/* ---------- подбор по голосовому описанию ---------- */
+let VQ = null; // { text, q }
+function setVoice(text) {
+  VQ = text ? { text, q: Voice.parse(text) } : null;
+  if (!text) { Voice.set(''); if (location.hash === '#voice') history.replaceState(null, '', location.pathname + location.search); }
+  render();
+  if (text) $('#vqBar').scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+window.voiceApply = setVoice;
+function voiceBar(found) {
+  const bar = $('#vqBar');
+  if (!VQ) { bar.hidden = true; bar.innerHTML = ''; return; }
+  const q = VQ.q, got = [...q.who, ...q.occ, ...q.hob, ...q.chr];
+  if (q.max) got.push('до ' + q.max.toLocaleString('ru-RU') + ' ₽');
+  bar.hidden = false;
+  bar.innerHTML = `<div class="vq-t"><b>Подбор по вашему рассказу</b><span>«${esc(VQ.text)}»</span></div>
+    ${got.length ? `<div class="vq-tags">${got.map((x) => `<i>${esc(x)}</i>`).join('')}</div>` : ''}
+    ${found ? '' : '<p class="vq-none">Не нашла точных совпадений, показываю весь каталог. Попробуйте назвать, кому подарок, увлечения и бюджет.</p>'}
+    <div class="vq-btns"><button type="button" class="btn btn-soft" data-voice>Сказать заново</button><button type="button" class="reset" id="vqReset">Сбросить подбор</button></div>`;
+  $('#vqReset').onclick = () => setVoice('');
+}
+
 function match(p) {
   if (F.cat && CATS[p.cat] !== F.cat) return false;
   if (F.occ && !p.tags.includes(F.occ.toLowerCase())) return false;
@@ -47,9 +69,17 @@ function render() {
     box.querySelectorAll('button').forEach((b) => b.classList.toggle('on', b.dataset.v === v || (v === 'max2000' && b.dataset.v === '')));
   });
   let list = products.filter(match);
+  let vFound = true;
+  if (VQ) {
+    const sc = new Map(list.map((p) => [p.id, Voice.score(p, VQ.q)]));
+    const hit = list.filter((p) => sc.get(p.id) > 0).sort((a, b) => sc.get(b.id) - sc.get(a.id));
+    vFound = hit.length > 0;
+    if (vFound) list = hit;
+  }
+  voiceBar(vFound);
   if (F.sort === 'asc') list = [...list].sort((a, b) => a.p - b.p);
   if (F.sort === 'desc') list = [...list].sort((a, b) => b.p - a.p);
-  if (F.sort === 'pop') list = [...list].sort((a, b) => (b.hit ? 1 : 0) - (a.hit ? 1 : 0));
+  if (F.sort === 'pop' && !VQ) list = [...list].sort((a, b) => (b.hit ? 1 : 0) - (a.hit ? 1 : 0));
   const n = list.length;
   $('#count').textContent = F.price === 'max2000' ? `До 2 000 ₽ · ${n} ${word(n)}` : `${n} ${word(n)}`;
   $('#reset').hidden = !(F.cat || F.occ || F.who || F.price || F.q);
@@ -113,3 +143,6 @@ addEventListener('keydown', (e) => { if (e.key === 'Escape') closeProduct(); });
 
 render();
 if (U.get('p')) { const b = document.querySelector(`.prod2[data-id="${CSS.escape(U.get('p'))}"]`); openProduct(U.get('p'), b); }
+
+// пришли с главной после голосового рассказа
+if (location.hash === '#voice' && Voice.get()) setVoice(Voice.get());

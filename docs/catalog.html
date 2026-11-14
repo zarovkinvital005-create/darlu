@@ -54,6 +54,7 @@
         <p class="cat-sub">Необычные вещи от небольших творческих брендов. Не знаете, что выбрать? <a href="ai.html">Подберите с ИИ →</a></p>
       </div>
       <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Поиск: журнал, браслет, брелок…" aria-label="Поиск по каталогу"></label>
+      <button type="button" class="voice-btn" data-voice><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg><span>Сказать голосом</span></button>
     </div>
 
     <div class="filters" id="filters">
@@ -62,6 +63,8 @@
       <div class="frow"><span>Кому</span><div class="chips2" data-f="who"></div></div>
       <div class="frow"><span>Бюджет</span><div class="chips2" data-f="price"></div></div>
     </div>
+
+    <div class="vq" id="vqBar" hidden></div>
 
     <div class="cat-bar">
       <span id="count"></span>
@@ -98,6 +101,7 @@
 <script src="products.js"></script>
 <script src="auth.js"></script>
 <script src="nav.js"></script>
+<script src="voice.js"></script>
 <script src="catalog.js"></script>
 </body>
 </html>
