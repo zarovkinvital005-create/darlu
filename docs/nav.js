@@ -8,7 +8,7 @@
   r.appendChild(b);
   var p=document.createElement('nav');
   p.className='m-nav';p.setAttribute('aria-label','Разделы');p.hidden=true;
-  p.innerHTML=nav.innerHTML+'<a class="btn btn-coral" href="ai.html">Подобрать подарок</a>';
+  p.innerHTML=nav.innerHTML+'<a class="btn btn-coral" href="ai.html">Пройти тест</a>';
   hdr.appendChild(p);
   function set(o){p.hidden=!o;b.setAttribute('aria-expanded',o);hdr.classList.toggle('open',o)}
   b.addEventListener('click',function(){set(p.hidden)});

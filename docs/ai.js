@@ -51,7 +51,7 @@ function bot(html, ms = 550) {
   const t = document.createElement('div'); t.className = 'msg bot typing'; t.innerHTML = '<i></i><i></i><i></i>'; chat.appendChild(t);
   return sleep(ms).then(() => { if (id !== run) return; t.className = 'msg bot'; t.innerHTML = html; });
 }
-function me(t) { const m = document.createElement('div'); m.className = 'msg me'; m.textContent = t; $('#chat').appendChild(m); }
+function me(t) { const pk = document.getElementById('aiPick'); if (pk) pk.hidden = true; const m = document.createElement('div'); m.className = 'msg me'; m.textContent = t; $('#chat').appendChild(m); }
 const optBtn = (o) => `<button type="button" class="opt" data-o="${esc(o)}">${esc(o)}</button>`;
 
 function start() {
@@ -277,5 +277,5 @@ async function finish() {
   $('#results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-$('#restart').onclick = start;
+$('#restart').onclick = () => { const pk = document.getElementById('aiPick'); if (pk) pk.hidden = false; start(); };
 start();

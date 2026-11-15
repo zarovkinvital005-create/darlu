@@ -40,7 +40,7 @@ function cabinet() {
   root.innerHTML = `
     <div class="acc-top">
       <div><div class="eyebrow">Личный кабинет</div><h1>Привет, ${esc(u.name)}!</h1><p class="acc-sub">${esc(u.email)}</p></div>
-      <div class="acc-acts"><a class="btn btn-soft" href="ai.html">Подобрать подарок</a><button class="btn btn-navy" id="out" type="button">Выйти</button></div>
+      <div class="acc-acts"><a class="btn btn-soft" href="ai.html">Пройти тест</a><button class="btn btn-navy" id="out" type="button">Выйти</button></div>
     </div>
     <h2 id="fav">Избранное <span class="acc-n">${list.length}</span></h2>
     ${list.length ? `<div class="res-grid acc-grid">${list.map((p) => `
