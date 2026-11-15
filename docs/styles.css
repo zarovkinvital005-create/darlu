@@ -704,3 +704,13 @@ a.prod2{text-decoration:none;color:inherit}
   .hero>.wrap{padding-left:0;padding-right:0}
   .hero-card{border-radius:0 0 28px 28px;padding-left:20px;padding-right:20px}
 }
+
+/* телефон: шапка и «челка» меняют цвет по разделам (синяя на главной, коралловая у брендов) */
+@media(max-width:760px){
+  .hdr-navy .hdr{background:var(--navy);border-bottom-color:transparent}
+  .hdr-navy .logo-txt b{color:#fff}
+  .hdr-navy .icon-btn svg,.hdr-navy .burger svg{stroke:#fff}
+  .hdr-navy .burger span{background:#fff}
+  .hdr-coral .hdr{background:var(--coral-l);border-bottom-color:transparent}
+  .hdr-coral .logo-mark{filter:brightness(.38)}
+}
