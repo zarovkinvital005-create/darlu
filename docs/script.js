@@ -111,3 +111,13 @@ if (hv) {
   go();
   ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach((e) => addEventListener(e, () => { if (hv.paused) go(); }, { once: true, passive: true }));
 }
+
+/* Главная всегда открывается с первого экрана: при возврате из каталога («Назад») браузер не должен
+   восстанавливать прежнюю прокрутку и уводить посетителя к середине страницы. */
+(function () {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const top = () => { if (!location.hash) window.scrollTo(0, 0); };
+  top();
+  window.addEventListener('pageshow', (e) => { if (e.persisted) top(); }); // возврат из кеша браузера
+  document.querySelector('.logo')?.addEventListener('click', (e) => { e.preventDefault(); history.replaceState(null, '', location.pathname); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+})();
