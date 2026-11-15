@@ -63,7 +63,7 @@ const Voice = (() => {
       <div class="vx-state" id="vxState" role="status">Нажмите на микрофон и говорите</div>
       <textarea id="vxText" rows="4" placeholder="Здесь появится ваш рассказ. Его можно поправить или написать руками"></textarea>
       <div class="vx-btns"><button type="button" class="btn btn-coral" id="vxGo">Показать подарки</button><button type="button" class="btn btn-soft" id="vxX">Отмена</button></div>
-      <p class="vx-note">Рассказ никуда не отправляется и не сохраняется.</p>
+      <p class="vx-note">Рассказ нужен только для подбора подарков, мы его не сохраняем.</p>
     </form>`;
     document.body.appendChild(dlg);
     dlg.querySelector('#vxMic').onclick = toggle;
@@ -74,7 +74,13 @@ const Voice = (() => {
   const ui = (on, msg) => {
     const mic = dlg.querySelector('#vxMic'), st = dlg.querySelector('#vxState');
     mic.classList.toggle('rec', on); mic.setAttribute('aria-label', on ? 'Остановить запись' : 'Начать запись');
-    st.classList.toggle('on', on); if (msg) st.textContent = msg;
+    st.classList.toggle('on', on);
+    if (msg) {
+      const m = on && msg.match(/^(Идёт запись)\. (.*)$/);
+      // во время записи: «волна», заголовок со временем и спокойная подсказка
+      if (m) st.innerHTML = `<span class="vx-wave"><i></i><i></i><i></i><i></i><i></i></span><b>${m[1]}</b><small>${m[2]}</small>`;
+      else st.textContent = msg;
+    }
   };
   function stop() { want = false; clearInterval(timer); if (rec) { try { rec.stop(); } catch (e) {} } rec = null; }
   function toggle() {
@@ -84,7 +90,7 @@ const Voice = (() => {
     if (want) { stop(); ui(false, 'Запись остановлена. Проверьте текст и нажмите «Показать подарки»'); return; }
     want = true;
     const base = ta.value ? ta.value.trim() + ' ' : ''; let fin = ''; const t0 = Date.now();
-    const tick = () => { const s = Math.floor((Date.now() - t0) / 1000); ui(true, `Идёт запись ${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}. Нажмите на микрофон, когда закончите`); };
+    const tick = () => { ui(true, 'Идёт запись. Нажмите на микрофон, когда закончите'); };
     tick(); timer = setInterval(tick, 500);
     const run = () => {
       rec = new SR(); rec.lang = 'ru-RU'; rec.interimResults = true; rec.continuous = true;

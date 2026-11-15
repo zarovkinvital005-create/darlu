@@ -614,3 +614,33 @@ a.prod2{text-decoration:none;color:inherit}
   .m-nav:not([hidden]){max-height:calc(100vh - 56px)}
   .hero-l .tag-sub{margin-bottom:10px}
 }
+
+/* упрощённые карточки на главной */
+.path{transition:transform .2s,background .2s;padding:22px 24px}
+.path-self:hover{transform:translateY(-4px);background:rgba(255,255,255,.13)}
+.p-t{justify-content:space-between;font-size:22px}
+.p-t .ic{flex:none}
+.path .p-d{font-size:16px}
+
+/* запись: мягче и приятнее, в цветах сайта */
+.vx-mic{outline:none;transition:background .3s,transform .2s}
+.vx-mic:hover{transform:scale(1.04)}
+.vx-mic:focus-visible{box-shadow:0 0 0 5px rgba(244,168,160,.5)}
+.vx-mic.rec{background:var(--coral);animation:vxring 1.9s ease-out infinite}
+.vx-mic.rec svg{stroke:var(--navy)}
+@keyframes vxring{0%{box-shadow:0 0 0 0 rgba(244,168,160,.6)}100%{box-shadow:0 0 0 30px rgba(244,168,160,0)}}
+.vx-state{display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:700}
+.vx-state.on{color:var(--navy)}
+.vx-state b{font-weight:800;font-size:17px}
+.vx-state small{font-weight:600;font-size:14px;color:var(--muted)}
+.vx-wave{display:inline-flex;gap:4px;align-items:center;height:22px;margin-bottom:2px}
+.vx-wave i{width:4px;height:8px;border-radius:3px;background:var(--coral-d);animation:vxwave 1.1s ease-in-out infinite}
+.vx-wave i:nth-child(2){animation-delay:.15s}.vx-wave i:nth-child(3){animation-delay:.3s}.vx-wave i:nth-child(4){animation-delay:.45s}.vx-wave i:nth-child(5){animation-delay:.6s}
+@keyframes vxwave{0%,100%{height:6px;opacity:.55}50%{height:22px;opacity:1}}
+.mic.rec{background:var(--coral);animation:vxring 1.9s ease-out infinite}
+.mic.rec svg{stroke:var(--navy)}
+.rec-bar{background:var(--blush);color:var(--navy);border:2px solid #F3C9C3}
+.rec-bar i{background:var(--coral-d)}
+.rec-bar small{color:var(--muted)}
+.recording{border-color:var(--coral-d)!important;box-shadow:0 0 0 4px rgba(244,168,160,.25)}
+@media(prefers-reduced-motion:reduce){.vx-mic.rec,.mic.rec,.vx-wave i{animation:none}.vx-wave i{height:14px}}

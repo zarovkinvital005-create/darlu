@@ -127,7 +127,7 @@ function voice(input) {
   const form = input.closest('form');
   const bar = document.createElement('div');
   bar.className = 'rec-bar'; bar.setAttribute('role', 'status');
-  bar.innerHTML = '<i></i><b>Идёт запись</b><span id="recT">0:00</span><small>Говорите. Нажмите на микрофон, когда закончите</small>';
+  bar.innerHTML = '<i></i><b>Идёт запись</b><small>Говорите. Нажмите на микрофон, когда закончите</small>';
   form.insertAdjacentElement('beforebegin', bar);
   const tick = () => { const s = Math.floor((Date.now() - t0) / 1000); const el = $('#recT'); if (el) el.textContent = Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
   recTimer = setInterval(tick, 500);
