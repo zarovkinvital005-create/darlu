@@ -714,3 +714,36 @@ a.prod2{text-decoration:none;color:inherit}
   .hdr-coral .hdr{background:var(--coral-l);border-bottom-color:transparent}
   .hdr-coral .logo-mark{filter:brightness(.38)}
 }
+
+/* телефон: плотнее по вертикали, чтобы внимание не терялось */
+@media(max-width:760px){
+  .sec{padding:26px 0}
+  .hits{padding-bottom:22px}
+  .how{padding-top:6px}
+  .sec-head{margin-bottom:16px}
+  .hits h2{margin-bottom:12px}
+  .how h2{margin-bottom:16px}
+  .how-top{margin-bottom:16px}
+  .cta-band{padding:10px 0 4px}
+  .cta-in{padding:22px 20px;gap:12px;border-radius:26px}
+  .cta-art{max-width:150px}
+  .cta-t h2{margin-bottom:8px}
+  .cta-t p{margin-bottom:16px}
+  .hero-card{gap:12px}
+  .hero-l .paths{gap:10px}
+  .ab-mission{margin-bottom:28px;padding:20px}
+  .ab-h1{margin-bottom:16px}
+  .b-hero{margin-bottom:14px}
+  .cm-hero{margin-bottom:22px}
+  footer,.ftr{margin-top:0}
+}
+@media(max-width:760px){
+  .shelf .row{margin-bottom:22px}
+  .caps{margin-top:10px}
+  .board{height:10px}
+  .items,.caps{gap:6px;padding:0 4px}
+  .caps b{font-size:13px}
+  .caps span{font-size:12px}
+  .caps i{font-size:11px}
+  .hits-cta .btn-lg{padding:15px 28px;font-size:16px}
+}
