@@ -1,10 +1,15 @@
 # ИИ-сервер «Дарлу» (Cloudflare Worker)
 
-Принимает рассказ о человеке, отправляет его в Claude вместе с каталогом и возвращает лучшие подарки.
+Принимает свободный рассказ о человеке и возвращает разбор в виде тегов: кому, повод, увлечения, характер, бюджет и 1–2 предложения «что я понял».
+Подбор подарков по этим тегам делает сайт (`docs/voice.js`, `docs/catalog.js`).
 
-1. Файл `worker.js` целиком вставляется в Cloudflare Worker (Workers & Pages → Create → Worker → Edit code).
-2. В настройках Worker добавить секрет `ANTHROPIC_API_KEY` (Settings → Variables and Secrets → Secret).
-3. Адрес Worker вписать в `docs/config.js` (`window.DARLU_API`).
+- Код: `worker.js` (вставляется целиком в Cloudflare → Workers & Pages → darlu-ai → Edit code → Deploy).
+- ИИ: бесплатный Workers AI, привязка (binding) с именем `AI` в Settings → Bindings. Карта не нужна.
+- По желанию: секрет `ANTHROPIC_API_KEY` (Settings → Variables and Secrets), тогда используется Claude.
+- Адрес Worker прописан в `docs/config.js`.
 
-После изменения каталога (`docs/products.js`) пересоберите файл: `python3 worker/build.py` и снова вставьте `worker.js` в Worker.
-`template.js` это шаблон, `worker.js` собирается из него.
+## Состояние (14.11.2026)
+Worker развёрнут и работает, но на сайте выключен (`docs/config.js` пуст): бесплатные модели Workers AI
+(llama-3.3-70b, llama-4-scout, mistral-small) плохо разбирают русский рассказ и отвечают 8–16 секунд.
+Чтобы включить ИИ, нужна платная модель: ключ Anthropic (секрет `ANTHROPIC_API_KEY`) или другой провайдер (например YandexGPT),
+затем вписать адрес Worker в `docs/config.js`.

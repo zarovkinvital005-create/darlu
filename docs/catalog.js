@@ -59,7 +59,14 @@ async function setVoice(text) {
   if (window.DARLU_API) {
     const res = await askAI(text);
     if (VQ !== mine) return; // за это время запустили другой подбор
-    mine.busy = false; mine.ai = res && (res.ids || []).length ? res : (res && res.question ? res : null);
+    mine.busy = false;
+    if (res && (res.summary || res.who || res.hob)) {
+      mine.ai = res;
+      // теги от ИИ дополняют то, что нашёл поиск по словам
+      const u = (a, b) => [...new Set([...(a || []), ...(b || [])])];
+      mine.q = { who: u(mine.q.who, res.who), occ: u(mine.q.occ, res.occ), hob: u(mine.q.hob, res.hob), chr: u(mine.q.chr, res.chr),
+        max: res.max || mine.q.max, words: u(mine.q.words, (res.keywords || []).map((w) => w.toLowerCase().replace(/ё/g, 'е').slice(0, 5))) };
+    }
     render();
   }
 }
@@ -71,10 +78,10 @@ function voiceBar(found) {
   if (q.max) got.push('до ' + q.max.toLocaleString('ru-RU') + ' ₽');
   bar.hidden = false;
   const note = VQ.busy ? '<p class="vq-ai"><span class="vq-dots"><i></i><i></i><i></i></span> ИИ читает ваш рассказ и выбирает подарки…</p>'
-    : ai && ai.ids && ai.ids.length ? `<p class="vq-ai"><b>ИИ понял так:</b> ${esc(ai.summary || '')}</p>`
-    : ai && ai.question ? `<p class="vq-ai"><b>Уточните, пожалуйста:</b> ${esc(ai.question)}</p>` : '';
-  const tags = !ai && got.length ? `<div class="vq-tags">${got.map((x) => `<i>${esc(x)}</i>`).join('')}</div>` : '';
-  const none = !VQ.busy && !(ai && ai.ids && ai.ids.length) && !found ? '<p class="vq-none">Не нашла точных совпадений, показываю весь каталог. Попробуйте назвать, кому подарок, увлечения и бюджет.</p>' : '';
+    : ai && ai.question && !got.length ? `<p class="vq-ai"><b>Уточните, пожалуйста:</b> ${esc(ai.question)}</p>`
+    : ai && ai.summary ? `<p class="vq-ai"><b>ИИ понял так:</b> ${esc(ai.summary)}</p>` : '';
+  const tags = got.length ? `<div class="vq-tags">${got.map((x) => `<i>${esc(x)}</i>`).join('')}</div>` : '';
+  const none = !VQ.busy && !found ? '<p class="vq-none">Не нашла точных совпадений, показываю весь каталог. Попробуйте назвать, кому подарок, увлечения и бюджет.</p>' : '';
   bar.innerHTML = `<div class="vq-t"><b>Подбор по вашему рассказу</b><span>«${esc(VQ.text)}»</span></div>${note}${tags}${none}
     <div class="vq-btns"><button type="button" class="btn btn-soft" data-voice>Сказать заново</button><button type="button" class="reset" id="vqReset">Сбросить подбор</button></div>`;
   $('#vqReset').onclick = () => setVoice('');
