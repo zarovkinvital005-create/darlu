@@ -697,3 +697,10 @@ a.prod2{text-decoration:none;color:inherit}
 .cm-hero-t .cm-acts{margin-top:26px}
 .cm-hero .ph-fig{aspect-ratio:4/3;max-width:none}
 @media(max-width:900px){.cm-hero{grid-template-columns:1fr}.cm-hero .ph-fig{max-height:300px}}
+
+/* телефон: главный экран на всю ширину, без светлых полос по краям */
+@media(max-width:760px){
+  .hero{padding-top:0}
+  .hero>.wrap{padding-left:0;padding-right:0}
+  .hero-card{border-radius:0 0 28px 28px;padding-left:20px;padding-right:20px}
+}
