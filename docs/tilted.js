@@ -24,7 +24,7 @@
   const SLICES = 16, CAMERA = 1.6, MAX_WIDTH = 55;
   const small = innerWidth < 700; // на телефоне загиб слабее, чтобы в кадр влезало несколько карточек
   const O = small ? { speed: 3, tileHeight: 66, aspect: 0.68, gap: 7, axis: 52, curve: 50, fade: 10 }
-    : { speed: 3.4, tileHeight: 82, aspect: 0.68, gap: 7, axis: 50, curve: 58, fade: 6 };
+    : { speed: 3.4, tileHeight: 82, aspect: 0.68, gap: 7, axis: 50, curve: 30, fade: 6 };
   const bend = (Math.min(85, Math.max(5, O.curve)) * Math.PI) / 180;
   const arc = (b) => (CAMERA - 1 + Math.cos(b)) / (2 * CAMERA * Math.sin(b));
   const deg = (r) => (r * 180) / Math.PI;

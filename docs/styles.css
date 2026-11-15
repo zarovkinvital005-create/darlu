@@ -474,8 +474,8 @@ body.lock{overflow:hidden}
 .tag-sub{font-size:clamp(18px,2vw,26px);letter-spacing:.3em;margin:-4px 0 20px}
 
 
-.ab-mission{grid-template-columns:1fr}
 .ab-mission .ab-text{max-width:60em}
+@media(max-width:1000px){.ab-mission{grid-template-columns:1fr}}
 
 /* избранное */
 .fav-page{padding:34px 0 90px}
@@ -555,7 +555,7 @@ a.prod2{text-decoration:none;color:inherit}
 .tg::before,.tg::after{content:"";position:absolute;top:0;bottom:0;width:20%;z-index:2;pointer-events:none;-webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px)}
 .tg::before{left:0;-webkit-mask-image:linear-gradient(90deg,#000 10%,transparent);mask-image:linear-gradient(90deg,#000 10%,transparent)}
 .tg::after{right:0;-webkit-mask-image:linear-gradient(270deg,#000 10%,transparent);mask-image:linear-gradient(270deg,#000 10%,transparent)}
-.tg-band{position:absolute;inset:0;opacity:0;transition:opacity .6s ease}
+.tg-band{position:absolute;inset:-38% 0;opacity:0;transition:opacity .6s ease}
 .tg.ready .tg-band{opacity:1}
 .tg-tile{position:absolute;display:block;transform-style:preserve-3d;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .tg-s{position:absolute;top:0;overflow:hidden;transition:filter .25s ease}
@@ -667,3 +667,28 @@ a.prod2{text-decoration:none;color:inherit}
 .path-self .p-arr{background:var(--coral);color:var(--navy)}
 .path-self .p-d{color:#d6dcf0}
 @media(max-width:760px){.path{padding:16px 16px;gap:12px}.p-ic{width:48px;height:48px}.p-arr{width:38px;height:38px}.path .p-t{font-size:20px}}
+
+/* --- визуальная подтяжка --- */
+/* лента: края размыты мягче, чтобы крайние карточки не превращались в пятно */
+.tg::before,.tg::after{width:11%;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+/* фото-карточки в «Хитах» и каталоге: единая тонкая рамка, чтобы светлые фото не сливались с фоном */
+.prod img,.res img{outline:1px solid rgba(30,42,74,.07);outline-offset:-1px}
+.res{box-shadow:0 6px 18px rgba(30,42,74,.06)}
+/* цветной блок-призыв: возвращает энергию после первого экрана */
+.btn-white{background:#fff;color:var(--navy);box-shadow:0 8px 20px rgba(30,42,74,.14)}
+.btn-white:hover{background:#FFF6F1}
+.cta-band{padding:clamp(28px,4vw,56px) 0}
+.cta-in{position:relative;overflow:hidden;background:linear-gradient(120deg,#F7B7AE 0%,#F4A8A0 55%,#EE9990 100%);border-radius:44px;padding:clamp(28px,5vw,64px);display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:center;box-shadow:0 24px 50px rgba(244,168,160,.35)}
+.cta-t h2{font-family:var(--head);font-weight:500;font-size:clamp(28px,4vw,52px);line-height:1.1;margin:0 0 14px;letter-spacing:-.5px;color:var(--navy)}
+.cta-t p{font-size:clamp(16px,1.5vw,20px);line-height:1.5;color:#3b3552;max-width:34em;margin:0 0 26px}
+.cta-btns{display:flex;gap:12px;flex-wrap:wrap}
+.cta-art{width:100%;max-width:420px;justify-self:center;height:auto;filter:drop-shadow(0 18px 24px rgba(30,42,74,.18))}
+@media(hover:hover) and (pointer:fine){.cta-art{transition:transform .5s cubic-bezier(.2,.9,.3,1.2)}.cta-in:hover .cta-art{transform:rotate(-3deg) translateY(-4px)}}
+@media(max-width:860px){.cta-in{grid-template-columns:1fr;border-radius:32px;text-align:left}.cta-art{max-width:280px;order:-1;justify-self:start}}
+
+
+/* фото на внутренних страницах */
+.ph-fig{margin:0;border-radius:32px;overflow:hidden;box-shadow:0 16px 34px rgba(30,42,74,.14);aspect-ratio:4/5;max-height:520px;justify-self:center;width:100%;max-width:440px}
+.ph-fig img{width:100%;height:100%;object-fit:cover;display:block}
+.ph-fig.ph-wide{aspect-ratio:3/2;max-width:560px}
+@media(max-width:1000px){.ph-fig{max-height:380px;max-width:none;aspect-ratio:4/3}.ph-fig.ph-wide{aspect-ratio:3/2}}
