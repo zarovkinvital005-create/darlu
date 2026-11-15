@@ -9,6 +9,18 @@
   const list = IDS.map((id) => products.find((p) => p.id === id)).filter(Boolean);
   if (!list.length) return;
 
+  /* На телефоне 3D-изгиб выглядит грубо (искажения, обрезанные края), поэтому там простая плоская лента. */
+  if (innerWidth < 700) {
+    const money = (v) => v.toLocaleString('ru-RU').replace(/\u00a0/g, ' ') + ' ₽';
+    const card = (p) => `<a class="tg-fc" href="catalog.html?p=${encodeURIComponent(p.id)}" aria-label="${p.n.replace(/"/g, '&quot;')}, ${p.from ? 'от ' : ''}${money(p.p)}">
+      <div class="tg-ph" style="background-image:url(${p.img})"></div>
+      <div class="tg-cap"><small>${p.b}</small><b>${p.n}</b><span>${p.from ? 'от ' : ''}${money(p.p)}</span></div></a>`;
+    const html = list.map(card).join('');
+    root.classList.add('tg-flat', 'ready');
+    root.innerHTML = `<div class="tg-track">${html}${html}</div>`;
+    root.querySelector('.tg-track').style.animationDuration = list.length * 4 + 's';
+    return;
+  }
   const SLICES = 16, CAMERA = 1.6, MAX_WIDTH = 55;
   const small = innerWidth < 700; // на телефоне загиб слабее, чтобы в кадр влезало несколько карточек
   const O = small ? { speed: 3, tileHeight: 66, aspect: 0.68, gap: 7, axis: 52, curve: 50, fade: 10 }
