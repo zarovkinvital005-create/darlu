@@ -692,3 +692,8 @@ a.prod2{text-decoration:none;color:inherit}
 .ph-fig img{width:100%;height:100%;object-fit:cover;display:block}
 .ph-fig.ph-wide{aspect-ratio:3/2;max-width:560px}
 @media(max-width:1000px){.ph-fig{max-height:380px;max-width:none;aspect-ratio:4/3}.ph-fig.ph-wide{aspect-ratio:3/2}}
+
+.cm-hero{display:grid;grid-template-columns:1.3fr 1fr;align-items:center;gap:clamp(20px,4vw,48px)}
+.cm-hero-t .cm-acts{margin-top:26px}
+.cm-hero .ph-fig{aspect-ratio:4/3;max-width:none}
+@media(max-width:900px){.cm-hero{grid-template-columns:1fr}.cm-hero .ph-fig{max-height:300px}}
