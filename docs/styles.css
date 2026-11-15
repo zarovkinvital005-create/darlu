@@ -644,3 +644,25 @@ a.prod2{text-decoration:none;color:inherit}
 .rec-bar small{color:var(--muted)}
 .recording{border-color:var(--coral-d)!important;box-shadow:0 0 0 4px rgba(244,168,160,.25)}
 @media(prefers-reduced-motion:reduce){.vx-mic.rec,.mic.rec,.vx-wave i{animation:none}.vx-wave i{height:14px}}
+
+/* карточки на главной: иконка, текст, круглая стрелка */
+.path{flex-direction:row;align-items:center;gap:16px;padding:20px 22px;position:relative;overflow:hidden}
+.p-ic{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;flex:none;transition:transform .3s}
+.p-ic svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.p-body{display:flex;flex-direction:column;gap:4px;flex:1;min-width:0}
+.path .p-t{display:block;font-size:22px;line-height:1.2}
+.path .p-d{font-size:15px;line-height:1.35}
+.p-arr{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex:none;transition:transform .3s}
+.p-arr svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.path:hover .p-arr{transform:translateX(5px)}
+.path:hover .p-ic{transform:scale(1.07) rotate(-4deg)}
+.path-ai{background:linear-gradient(135deg,#F8C0B8 0%,#F4A8A0 55%,#EE9A92 100%);box-shadow:0 16px 34px rgba(244,168,160,.38),inset 0 1px 0 rgba(255,255,255,.55)}
+.path-ai::after{content:"";position:absolute;top:-40%;right:-10%;width:60%;height:180%;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.28),rgba(255,255,255,0));transform:rotate(12deg);pointer-events:none}
+.path-ai .p-ic{background:#fff;color:var(--navy);box-shadow:0 6px 14px rgba(30,42,74,.14)}
+.path-ai .p-arr{background:var(--navy);color:#fff}
+.path-ai .p-d{color:#3b3552}
+.path-self{background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.34),0 10px 26px rgba(10,18,40,.18)}
+.path-self .p-ic{background:rgba(255,255,255,.16);color:var(--coral)}
+.path-self .p-arr{background:var(--coral);color:var(--navy)}
+.path-self .p-d{color:#d6dcf0}
+@media(max-width:760px){.path{padding:16px 16px;gap:12px}.p-ic{width:48px;height:48px}.p-arr{width:38px;height:38px}.path .p-t{font-size:20px}}
