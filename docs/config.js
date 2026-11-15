@@ -1,3 +1,4 @@
-/* Адрес ИИ-сервера (Cloudflare Worker darlu-ai: https://darlu-ai.vitalyzarovkin0.workers.dev). Пока выключен (пусто): бесплатные модели Cloudflare плохо понимают русский, сайт подбирает подарки по ключевым словам.
-   Когда сервер развёрнут, сюда вставляется его адрес вида https://darlu-ai.ВАШ-АККАУНТ.workers.dev */
-window.DARLU_API = '';
+/* Адрес ИИ-сервера (Cloudflare Worker darlu-ai, модель YandexGPT).
+   Он разбирает свободный рассказ о человеке в теги; если сервер недоступен, сайт подбирает подарки по ключевым словам.
+   Пустая строка выключает ИИ. */
+window.DARLU_API = 'https://darlu-ai.vitalyzarovkin0.workers.dev';
