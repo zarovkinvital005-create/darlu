@@ -35,6 +35,12 @@ const Voice = (() => {
     return { who: pick(WHO), occ: pick(OCC), hob: pick(HOB), chr: pick(CHR), max, words };
   }
   // чем выше балл, тем лучше подарок подходит под описание
+  const WHO_ALL = WHO.map((x) => x[1]);
+  const freqCache = {};
+  const freq = (tag) => {
+    if (!(tag in freqCache)) { const all = typeof products !== 'undefined' ? products : []; freqCache[tag] = all.length ? all.filter((x) => x.tags.includes(tag)).length / all.length : 0; }
+    return freqCache[tag];
+  };
   function score(p, q) {
     if (q.max && p.p > q.max) return 0;
     // подарок явно «для мужчин» не показываем, если просят для женщины (и наоборот)
@@ -44,8 +50,10 @@ const Voice = (() => {
     if (maleOnly && femWho) return 0;
     let s = 0, interest = 0;
     let whoHit = 0;
-    q.who.forEach((x) => { if (p.tags.includes(x)) { s += 3; whoHit++; } });
-    q.occ.forEach((x) => { if (p.tags.includes(x)) s += 2; });
+    // частые теги («подруге» у большинства товаров) весят меньше, редкие и точечные больше
+    const nWho = p.tags.filter((x) => WHO_ALL.includes(x)).length || 1;
+    q.who.forEach((x) => { if (p.tags.includes(x)) { s += 3 * (1 - freq(x)) + 2 / nWho; whoHit++; } });
+    q.occ.forEach((x) => { if (p.tags.includes(x)) s += 2 * (1 - freq(x)); });
     q.hob.forEach((x) => { if (p.tags.includes(x)) interest += 3; });
     q.chr.forEach((x) => { if (p.tags.includes(x)) s += 1; });
     const hay = (p.n + ' ' + p.d + ' ' + p.b).toLowerCase().replace(/ё/g, 'е');
