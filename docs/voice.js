@@ -37,6 +37,11 @@ const Voice = (() => {
   // чем выше балл, тем лучше подарок подходит под описание
   function score(p, q) {
     if (q.max && p.p > q.max) return 0;
+    // подарок явно «для мужчин» не показываем, если просят для женщины (и наоборот)
+    const forTxt = ((p.l || []).join(' ') + ' ' + p.n).toLowerCase();
+    const maleOnly = /(боксер|боксёр|мужчин|мужск|отцу|дедушк)/.test(forTxt) && !/(женщин|девушк|подруг)/.test(forTxt);
+    const femWho = q.who.length && q.who.every((x) => ['маме', 'сестре', 'подруге', 'девушке', 'жене', 'бабушке', 'тёте'].includes(x));
+    if (maleOnly && femWho) return 0;
     let s = 0, interest = 0;
     let whoHit = 0;
     q.who.forEach((x) => { if (p.tags.includes(x)) { s += 3; whoHit++; } });
